@@ -10,6 +10,16 @@ A production-ready web application that transcribes NGO meeting audio, generates
 
 ---
 
+## 👥 About This Project
+
+NGOMeet was developed as part of a collaborative team project. The project was built together as a group effort, with each member contributing to different aspects of the development.
+
+**Original Team Repository** → [View Here](https://github.com/02SUDHANSHU/CommunityEngagementProject)
+
+This repository represents my personal copy of the project, maintained to document my contributions, learnings, and any improvements I continue to make going forward.
+
+---
+
 ## ❓ Problem Statement
 
 NGOs and non-profit organizations face several critical challenges in meeting management:
