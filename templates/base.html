@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}NGOMeet{% endblock %}</title>
+
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Playfair Display"', 'serif'],
+            body: ['"DM Sans"', 'sans-serif'],
+          },
+          colors: {
+            forest: {
+              50:  '#f0fdf4',
+              100: '#dcfce7',
+              200: '#bbf7d0',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+            },
+            earth: {
+              50:  '#fafaf9',
+              100: '#f5f5f4',
+              200: '#e7e5e4',
+              300: '#d6d3d1',
+              400: '#a8a29e',
+              500: '#78716c',
+              600: '#57534e',
+              700: '#44403c',
+              800: '#292524',
+              900: '#1c1917',
+            },
+            amber: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+            }
+          },
+          boxShadow: {
+            'soft': '0 2px 8px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.02)',
+            'hover': '0 8px 24px rgba(0,0,0,0.08)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style type="text/tailwindcss">
+    body { 
+      font-family: 'DM Sans', sans-serif; 
+      background-color: #fefcf7;
+    }
+    h1, h2, h3 { 
+      font-family: 'Playfair Display', serif; 
+      letter-spacing: -0.01em;
+    }
+    
+    /* Sidebar links */
+    .sidebar-link { 
+      @apply flex items-center gap-3 px-4 py-2.5 rounded-xl text-earth-300 hover:text-white hover:bg-earth-800/80 transition-all duration-200 text-sm font-medium; 
+    }
+    .sidebar-link.active { 
+      @apply bg-forest-700 text-white shadow-md; 
+    }
+    .sidebar-link.active:hover { 
+      @apply bg-forest-700 text-white; 
+    }
+
+    /* Buttons */
+    .btn-primary { 
+      @apply inline-flex items-center gap-2 bg-forest-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-sm hover:bg-forest-800 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed; 
+    }
+    .btn-secondary { 
+      @apply inline-flex items-center gap-2 bg-white text-earth-700 border border-earth-200 px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-earth-50 hover:border-earth-300 hover:shadow-sm transition-all duration-150; 
+    }
+    .btn-danger { 
+      @apply inline-flex items-center gap-2 bg-red-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-red-700 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200; 
+    }
+    .btn-outline-danger {
+      @apply inline-flex items-center gap-2 bg-white text-red-600 border border-red-200 px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-red-50 hover:border-red-300 hover:text-red-700 transition-all duration-150;
+    }
+
+    /* Components */
+    .card { 
+      @apply bg-white rounded-2xl border border-earth-200/80 shadow-soft hover:shadow-hover transition-all duration-200; 
+    }
+    .input-field { 
+      @apply w-full border border-earth-200 rounded-xl px-4 py-2.5 text-sm text-earth-800 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-transparent bg-white/90 transition; 
+    }
+    
+    /* Badges */
+    .badge-pending    { @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800; }
+    .badge-progress   { @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800; }
+    .badge-completed  { @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-forest-100 text-forest-800; }
+    .badge-error      { @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800; }
+    .badge-processing { @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-800; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f5f5f4; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+
+    /* Animations */
+    .flash-msg { animation: slideDown 0.3s ease; }
+    @keyframes slideDown { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-fade-in { animation: fadeIn 0.4s ease-out; }
+  </style>
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="min-h-screen text-earth-800">
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="fixed top-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full">
+    {% for category, message in messages %}
+    <div class="flash-msg flex items-start gap-3 p-4 rounded-xl shadow-lg border
+      {% if category == 'success' %}bg-forest-50 border-forest-200 text-forest-800
+      {% elif category == 'error' %}bg-red-50 border-red-200 text-red-800
+      {% elif category == 'warning' %}bg-amber-50 border-amber-200 text-amber-800
+      {% else %}bg-blue-50 border-blue-200 text-blue-800{% endif %}">
+      <i data-lucide="{% if category == 'success' %}check-circle{% elif category == 'error' %}x-circle{% elif category == 'warning' %}alert-triangle{% else %}info{% endif %}" class="w-5 h-5 flex-shrink-0 mt-0.5"></i>
+      <p class="text-sm font-medium">{{ message }}</p>
+      <button onclick="this.parentElement.remove()" class="ml-auto flex-shrink-0 opacity-60 hover:opacity-100">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endwith %}
+
+{% if session.get('user_id') %}
+<div class="flex min-h-screen">
+
+  <aside class="w-64 bg-earth-900 flex flex-col fixed h-full z-30 shadow-2xl border-r border-earth-800/60">
+    <div class="px-5 py-6 border-b border-earth-800">
+      <a href="{{ url_for('dashboard') }}" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="w-8 h-8 object-contain bg-white p-0.5 rounded-md shadow-sm">
+        <span class="font-display text-white text-xl font-bold tracking-wide">NGOMeet</span>
+      </a>
+      <p class="text-earth-400 text-xs mt-1.5 ml-11 font-medium tracking-wide uppercase">Intelligence</p>
+    </div>
+
+    <nav class="flex-1 px-4 py-6 flex flex-col gap-1.5">
+      <a href="{{ url_for('dashboard') }}" class="sidebar-link {% if request.endpoint == 'dashboard' %}active{% endif %}">
+        <i data-lucide="layout-dashboard" class="w-4.5 h-4.5"></i> Dashboard
+      </a>
+      <a href="{{ url_for('tasks_board') }}" class="sidebar-link {% if request.endpoint == 'tasks_board' %}active{% endif %}">
+        <i data-lucide="kanban-square" class="w-4.5 h-4.5"></i> Task Board
+      </a>
+      <a href="{{ url_for('archive') }}" class="sidebar-link {% if request.endpoint == 'archive' %}active{% endif %}">
+        <i data-lucide="archive" class="w-4.5 h-4.5"></i> Archive
+      </a>
+    </nav>
+
+    <div class="px-5 py-5 border-t border-earth-800 bg-earth-900/80">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-forest-500 to-forest-600 flex items-center justify-center shadow-inner ring-2 ring-earth-800">
+          <span class="text-white text-sm font-bold">{{ (current_name or session.get('user_email','?'))[0] | upper }}</span>
+        </div>
+        <div class="flex flex-col min-w-0">
+          <span class="text-earth-100 text-sm font-medium truncate">{{ current_name or session.get('user_email', '') }}</span>
+          <span class="text-earth-500 text-xs capitalize flex items-center gap-1 mt-0.5">
+            {% if current_role == 'admin' %}
+              <i data-lucide="shield" class="w-3 h-3 text-purple-400"></i> Admin
+            {% else %}
+              Member
+            {% endif %}
+          </span>
+        </div>
+      </div>
+      <a href="{{ url_for('profile_settings') }}" class="sidebar-link w-full !px-3 mb-1">
+        <i data-lucide="user-cog" class="w-4 h-4"></i> My Profile
+      </a>
+      <a href="{{ url_for('logout') }}" class="sidebar-link w-full !px-3 !text-earth-400 hover:!text-red-400 hover:!bg-red-400/10 group">
+        <i data-lucide="log-out" class="w-4 h-4 group-hover:text-red-400 transition-colors"></i> Sign out
+      </a>
+    </div>
+  </aside>
+
+  <main class="ml-64 flex-1 min-h-screen p-8">
+    {% block content %}{% endblock %}
+  </main>
+
+</div>
+{% else %}
+{% block auth_content %}{% endblock %}
+{% endif %}
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script>
+  lucide.createIcons();
+
+  // Auto-dismiss flash messages after 5 seconds
+  setTimeout(() => {
+    document.querySelectorAll('.flash-msg').forEach(el => {
+      el.style.transition = 'opacity 0.5s ease';
+      el.style.opacity = '0';
+      setTimeout(() => el.remove(), 500);
+    });
+  }, 5000);
+</script>
+
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ code }} — NGOMeet{% endblock %}
+
+{% block content %}
+<div class="min-h-[80vh] flex items-center justify-center p-8">
+  <div class="text-center max-w-md">
+    <div class="relative mb-6">
+      <div class="font-display text-8xl font-bold text-earth-200">{{ code }}</div>
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="w-24 h-24 rounded-full bg-earth-100 flex items-center justify-center">
+          <i data-lucide="alert-triangle" class="w-12 h-12 text-earth-400"></i>
+        </div>
+      </div>
+    </div>
+    <h1 class="font-display text-2xl text-earth-800 mb-3">{{ message }}</h1>
+    <p class="text-earth-500 text-sm mb-8 leading-relaxed">
+      {% if code == 404 %}
+      The page you're looking for doesn't exist or has been moved.
+      {% elif code == 500 %}
+      Something went wrong on our end. Our team has been notified.
+      {% else %}
+      Something went wrong. Please try again or go back to the dashboard.
+      {% endif %}
+    </p>
+    <a href="{{ url_for('dashboard') }}" class="btn-primary shadow-md inline-flex">
+      <i data-lucide="home" class="w-4 h-4"></i> Back to Dashboard
+    </a>
+  </div>
+</div>
+{% endblock %}

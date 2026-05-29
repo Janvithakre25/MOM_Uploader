@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}My Profile — NGOMeet{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in max-w-2xl">
+
+  <div class="mb-8">
+    <h1 class="font-display text-3xl text-earth-900">My Profile</h1>
+    <p class="text-earth-500 text-sm mt-1">Manage your display name and account details.</p>
+  </div>
+
+  <div class="card p-6 mb-5">
+    <div class="flex items-center gap-5 mb-6 pb-6 border-b border-earth-100">
+      <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-forest-500 to-forest-600 shadow-inner ring-4 ring-forest-50 flex items-center justify-center flex-shrink-0">
+        <span class="text-white text-2xl font-bold font-display">
+          {{ (current_name or user_email or '?')[0] | upper }}
+        </span>
+      </div>
+      <div>
+        <p class="font-display text-xl text-earth-900">
+          {{ profile.full_name or current_name or 'No name set' }}
+        </p>
+        <p class="text-earth-500 text-sm">{{ profile.email or user_email }}</p>
+        <span class="inline-flex items-center gap-1 mt-1.5 text-xs px-2.5 py-0.5 rounded-full font-medium
+          {% if current_role == 'admin' %}bg-purple-100 text-purple-800
+          {% else %}bg-earth-100 text-earth-600{% endif %}">
+          {% if current_role == 'admin' %}
+          <i data-lucide="shield" class="w-3 h-3"></i> Admin
+          {% else %}
+          <i data-lucide="user" class="w-3 h-3"></i> Member
+          {% endif %}
+        </span>
+      </div>
+    </div>
+
+    <form method="POST" action="{{ url_for('profile_settings') }}" class="space-y-5">
+      <div>
+        <label for="full_name" class="block text-sm font-medium text-earth-700 mb-1.5">
+          Display Name
+        </label>
+        <input
+          type="text"
+          id="full_name"
+          name="full_name"
+          required
+          minlength="2"
+          maxlength="100"
+          class="input-field max-w-sm"
+          value="{{ profile.full_name or current_name or '' }}"
+          placeholder="Your full name"
+        />
+        <p class="text-earth-400 text-xs mt-1.5">
+          This name appears on meetings you upload and in the sidebar.
+        </p>
+      </div>
+
+      <div class="pt-2">
+        <button type="submit" class="btn-primary">
+          <i data-lucide="save" class="w-4 h-4"></i>
+          Save changes
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card p-6">
+    <h2 class="font-semibold text-earth-700 text-sm uppercase tracking-wide mb-4 flex items-center gap-2">
+      <i data-lucide="info" class="w-4 h-4 text-earth-400"></i> Account Information
+    </h2>
+    <div class="space-y-3">
+      <div class="flex items-center gap-3 text-sm">
+        <span class="text-earth-500 w-24 flex-shrink-0">Email</span>
+        <span class="text-earth-800 font-medium">{{ profile.email or user_email }}</span>
+      </div>
+      <div class="flex items-center gap-3 text-sm">
+        <span class="text-earth-500 w-24 flex-shrink-0">Role</span>
+        <span class="text-earth-800 font-medium capitalize">{{ profile.role or current_role }}</span>
+      </div>
+    </div>
+    <div class="mt-5 pt-4 border-t border-earth-100">
+      <p class="text-earth-400 text-xs leading-relaxed">
+        To change your email or password, please contact your administrator.<br>
+        Role changes (e.g., upgrading to Admin) must be made directly in the database.
+      </p>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
