@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: ngomeet
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: "bash build.sh"
+    startCommand: "gunicorn wsgi:app --workers 2 --timeout 300 --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+      - key: FLASK_DEBUG
+        value: "False"
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: MAX_CHUNK_DURATION_MS
+        value: "600000"
+      - key: TEMP_AUDIO_DIR
+        value: "/tmp/ngomeet_audio"
